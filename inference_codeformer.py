@@ -9,6 +9,7 @@ from basicsr.utils.download_util import load_file_from_url
 from facelib.utils.face_restoration_helper import FaceRestoreHelper
 from facelib.utils.misc import is_gray
 import torch.nn.functional as F
+import torch_xla.core.xla_model as xm
 
 from basicsr.utils.registry import ARCH_REGISTRY
 
@@ -49,7 +50,7 @@ def set_realesrgan():
     return upsampler
 
 if __name__ == '__main__':
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = xm.xla_device()
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-i', '--input_path', type=str, default='./inputs/whole_imgs', 
